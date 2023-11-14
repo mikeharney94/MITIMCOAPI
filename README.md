@@ -1,2 +1,2 @@
 # MITIMCOAPI
- Project submission for MITIMCO job application
+To run it, you can type the command "dotnet run --launch-profile https" from the file directory. Furthermore, once you do, you should see a command resembling Now listening on: https://localhost:7210. If you navigate to that url, followed by /swagger/index.html like so: https://localhost:7210/swagger/index.html while it is running, then you can view the API parameters and endpoints as well as manually test submissions yourself.
