@@ -40,7 +40,7 @@ public class GetReturnController : ControllerBase
                 }
             } else if (entryDate.Year != today.Year)
             {
-                continue;
+                break;
             }
             
             float.TryParse(entry.Value.Open, out float numOpen);

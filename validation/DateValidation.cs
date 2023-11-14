@@ -29,10 +29,6 @@ static class DateValidation
         }
 
         DateTime toDate_date = parseDate(ToDate);
-        if (toDate_date < alphavantageStart)
-        {
-            throw new ArgumentException("The FromDate is from before accessible records are present.");
-        }
         if (toDate_date < fromDate_date)
         {
             throw new ArgumentException("The ToDate cannot be before FromDate.");
