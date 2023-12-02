@@ -11,4 +11,7 @@ public class TimeSeriesDaily
     public Dictionary<string, TimeSeriesDailyDateData>? TimeSeries { get; set; }
     public string? Information { get; set; }
     public string? Note { get; set;}
+
+    [JsonPropertyName("Error Message")]
+    public string? ErrorMessage { get; set;}
 }

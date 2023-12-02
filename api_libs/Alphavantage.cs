@@ -27,6 +27,10 @@ static class AlphaVantage
         {
             throw new Exception("Note error (likely external API key exceeded daily use):" + result.Note);
         }
+        if (result.ErrorMessage != null)
+        {
+            throw new Exception("Error (likely that api key is invalid or not recorded in registry):" + result.ErrorMessage);
+        }
         if (result.TimeSeries == null)
         {
             throw new Exception("There is no Alphavantage TimeSeries data for this stock ticker. Please check https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo and validate that daily stock data is still included within the 'Time Series (Daily)' index.");
