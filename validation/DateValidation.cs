@@ -1,6 +1,6 @@
 using System.Globalization;
 
-static class DateValidation
+public static class DateValidation
 {
     // parses a date in the yyyy-MM-dd format and throws an error if there is an issue.
     public static DateTime parseDate(string date)
@@ -21,21 +21,21 @@ static class DateValidation
         DateTime today = DateTime.Today;
         if (fromDate_date < alphavantageStart)
         {
-            throw new ArgumentException("The FromDate is from before accessible records are present.");
+            throw new ArgumentException(ErrorMessages.fromDatePrecedesAPI);
         }
         if (ToDate == null) 
         {
-            throw new ArgumentException("If FromDate is provided, so must ToDate.");
+            throw new ArgumentException(ErrorMessages.fromDateRequiredWithToDate);
         }
 
         DateTime toDate_date = parseDate(ToDate);
         if (toDate_date < fromDate_date)
         {
-            throw new ArgumentException("The ToDate cannot be before FromDate.");
+            throw new ArgumentException(ErrorMessages.fromDatePrecedesToDate);
         }
         if (toDate_date > today || fromDate_date > today)
         {
-            throw new ArgumentException("Neither the 'From Date' nor the 'To Date' can be in the future.");
+            throw new ArgumentException(ErrorMessages.dateInFuture);
         }
         return new List<DateTime>{fromDate_date, toDate_date};
     }
