@@ -6,9 +6,9 @@ using MITIMCOAPI;
 /*
     This class communicates with and handles errors related to the Alpha Vantage api
 */
-static class AlphaVantage
+public class AlphaVantage : IDailyStockRetriever<TimeSeriesDaily>
 {
-    public static async Task<TimeSeriesDaily> Time_series_daily(string symbol, string outputsize)
+    public async Task<TimeSeriesDaily> GetDailyStockData(string symbol, string outputsize)
     {
         string apiKey = Environment.GetEnvironmentVariable("alphavantage_key", EnvironmentVariableTarget.Machine);
         string QUERY_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&apikey="+apiKey+"&outputsize="+outputsize;

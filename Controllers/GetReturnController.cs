@@ -22,8 +22,12 @@ public class GetReturnController : ControllerBase
             toDate_date = validDates[1];
             using_dates = true;
         }
+        
+        // Utilizing Generics here allows us to use different return types per inherited API, however converting all API results to a specific return type
+        // for easier parsing later, is also a viable approach.
 
-        TimeSeriesDaily res = await AlphaVantage.Time_series_daily(stockTicker, Strategy.GetOutputStrategy(fromDate_date, toDate_date));
+        IDailyStockRetriever<TimeSeriesDaily> dailyStockRetriever = new AlphaVantage();
+        TimeSeriesDaily res = await dailyStockRetriever.GetDailyStockData(stockTicker, Strategy.GetOutputStrategy(fromDate_date, toDate_date));
 
         Dictionary<string, float> dailyReturns = new Dictionary<string, float>();
         foreach(KeyValuePair<string, TimeSeriesDailyDateData> entry in res.TimeSeries)

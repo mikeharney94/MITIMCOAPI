@@ -24,8 +24,13 @@ public class GetAlphaController : ControllerBase
         }
 
         string outputStrategy = Strategy.GetOutputStrategy(fromDate_date, toDate_date);
-        TimeSeriesDaily tickerValues = await AlphaVantage.Time_series_daily(stockTicker, outputStrategy);
-        TimeSeriesDaily benchmarkValues = await AlphaVantage.Time_series_daily("SPY", outputStrategy);
+        
+        // Utilizing Generics here allows us to use different return types per inherited API, however converting all API results to a specific return type
+        // for easier parsing later, is also a viable approach.
+        
+        IDailyStockRetriever<TimeSeriesDaily> dailyStockRetriever = new AlphaVantage();
+        TimeSeriesDaily tickerValues = await dailyStockRetriever.GetDailyStockData(stockTicker, outputStrategy);
+        TimeSeriesDaily benchmarkValues = await dailyStockRetriever.GetDailyStockData("SPY", outputStrategy);
 
         float tickerEndValue = -1F;
         float tickerStartValue = -1F;
