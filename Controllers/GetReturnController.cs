@@ -49,7 +49,7 @@ public class GetReturnController : ControllerBase
             
             float.TryParse(entry.Value.Open, out float numOpen);
             float.TryParse(entry.Value.Close, out float numClose);
-            dailyReturns.Add(entry.Key, numOpen - numClose);
+            dailyReturns.Add(entry.Key, numClose - numOpen);
         }
         return dailyReturns;
     }
