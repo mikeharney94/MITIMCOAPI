@@ -7,7 +7,7 @@ namespace MITIMCOAPI.Controllers;
 public class GetReturnController : ControllerBase
 {
     [HttpGet(Name = "GetReturn")]
-    public async Task<Dictionary<string, float>> GetReturn(string stockTicker, string? FromDate, string? ToDate)
+    public async Task<Dictionary<string, ChangeTypes>> GetReturn(string stockTicker, string? FromDate, string? ToDate)
     {
         stockTicker = stockTicker.ToUpper();
         DateTime fromDate_date = new DateTime(); // default = Year 1
@@ -29,7 +29,7 @@ public class GetReturnController : ControllerBase
         IDailyStockRetriever<TimeSeriesDaily> dailyStockRetriever = new AlphaVantage();
         TimeSeriesDaily res = await dailyStockRetriever.GetDailyStockData(stockTicker, Strategy.GetOutputStrategy(fromDate_date, toDate_date));
 
-        Dictionary<string, float> dailyReturns = new Dictionary<string, float>();
+        Dictionary<string, ChangeTypes> dailyReturns = new Dictionary<string, ChangeTypes>();
         foreach(KeyValuePair<string, TimeSeriesDailyDateData> entry in res.TimeSeries)
         {
             DateTime entryDate = DateValidation.parseDate(entry.Key);
@@ -49,7 +49,10 @@ public class GetReturnController : ControllerBase
             
             float.TryParse(entry.Value.Open, out float numOpen);
             float.TryParse(entry.Value.Close, out float numClose);
-            dailyReturns.Add(entry.Key, numClose - numOpen);
+            ChangeTypes changes = new ChangeTypes();
+            changes.dollars = numClose - numOpen;
+            changes.percentage = (numClose - numOpen) / numClose;
+            dailyReturns.Add(entry.Key, changes);
         }
         return dailyReturns;
     }
