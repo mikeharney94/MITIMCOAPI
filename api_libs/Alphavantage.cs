@@ -21,19 +21,19 @@ public class AlphaVantage : IDailyStockRetriever<TimeSeriesDaily>
 
         if (result.Information != null)
         {
-            throw new Exception("Information error (likely invalid stock ticker):" + result.Information);
+            LoggingLib.ThrowException("Information error (likely invalid stock ticker):" + result.Information, "Argument");
         }
         if (result.Note != null)
         {
-            throw new Exception("Note error (likely external API key exceeded daily use):" + result.Note);
+            LoggingLib.ThrowException("Note error (likely external API key exceeded daily use):" + result.Note, null);
         }
         if (result.ErrorMessage != null)
         {
-            throw new Exception("Error (likely that api key is invalid or not recorded in registry):" + result.ErrorMessage);
+            LoggingLib.ThrowException("Error (likely that api key is invalid or not recorded in registry):" + result.ErrorMessage, null);
         }
         if (result.TimeSeries == null)
         {
-            throw new Exception("There is no Alphavantage TimeSeries data for this stock ticker. Please check https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo and validate that daily stock data is still included within the 'Time Series (Daily)' index.");
+            LoggingLib.ThrowException("There is no Alphavantage TimeSeries data for this stock ticker. Please check https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo and validate that daily stock data is still included within the 'Time Series (Daily)' index.", null);
         }
         return result;
     }

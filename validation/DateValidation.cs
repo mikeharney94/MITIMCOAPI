@@ -8,7 +8,7 @@ public static class DateValidation
         DateTime d;
         bool correctFormat = DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out d);
         if (!correctFormat) {
-            throw new ArgumentException("Passed in date: "+date+"does not follow the yyyy-MM-dd format");
+            LoggingLib.ThrowException("Passed in date: "+date+"does not follow the yyyy-MM-dd format", "Argument");
         }
         return d;
     }
@@ -21,21 +21,21 @@ public static class DateValidation
         DateTime today = DateTime.Today;
         if (fromDate_date < alphavantageStart)
         {
-            throw new ArgumentException(ErrorMessages.fromDatePrecedesAPI);
+            LoggingLib.ThrowException(ErrorMessages.fromDatePrecedesAPI, "Argument");
         }
         if (ToDate == null) 
         {
-            throw new ArgumentException(ErrorMessages.fromDateRequiredWithToDate);
+            LoggingLib.ThrowException(ErrorMessages.fromDateRequiredWithToDate, "Argument");
         }
 
         DateTime toDate_date = parseDate(ToDate);
         if (toDate_date < fromDate_date)
         {
-            throw new ArgumentException(ErrorMessages.fromDatePrecedesToDate);
+            LoggingLib.ThrowException(ErrorMessages.fromDatePrecedesToDate, "Argument");
         }
         if (toDate_date > today || fromDate_date > today)
         {
-            throw new ArgumentException(ErrorMessages.dateInFuture);
+            LoggingLib.ThrowException(ErrorMessages.dateInFuture, "Argument");
         }
         return new List<DateTime>{fromDate_date, toDate_date};
     }
