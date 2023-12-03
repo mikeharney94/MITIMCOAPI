@@ -51,7 +51,7 @@ public class GetReturnController : ControllerBase
             float.TryParse(entry.Value.Close, out float numClose);
             ChangeTypes changes = new ChangeTypes();
             changes.dollars = numClose - numOpen;
-            changes.percentage = (numClose - numOpen) / numClose;
+            changes.percentage = ((numClose - numOpen) / numOpen) * 100;
             dailyReturns.Add(entry.Key, changes);
         }
         return dailyReturns;
